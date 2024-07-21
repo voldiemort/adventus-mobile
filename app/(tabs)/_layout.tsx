@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           title: 'Activities',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'search' : 'search'} color={color} />
+            <TabBarIcon name={focused ? 'game-controller' : 'game-controller-outline'} color={color} />
           ),
         }}
       />
@@ -38,6 +38,24 @@ export default function TabLayout() {
           title: 'Find Friends',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'people' : 'people-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="courses"
+        options={{
+          title: 'Course Matching',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'book' : 'book-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="user/[id]"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'person-circle' : 'person-circle-outline'} color={color} />
           ),
         }}
       />
