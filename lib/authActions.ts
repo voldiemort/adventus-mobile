@@ -47,6 +47,9 @@ export const getToken = async () => {
 };
 
 export const apiLogout = async () => {
-  await SecureStore.deleteItemAsync('authToken');
-  store.dispatch(logout());
+    const token = await getToken();
+    if (token) {
+        await SecureStore.deleteItemAsync('authToken');
+    }
+    store.dispatch(logout());
 };

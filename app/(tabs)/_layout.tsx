@@ -1,12 +1,20 @@
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { getToken, apiLogout } from '@/lib/authActions';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '@/redux/authSlice';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  let isAuthenticated: boolean = useSelector(selectAuth);
+  if (!isAuthenticated) {
+    apiLogout();
+    return <Redirect href='/login'/>;
+  }
 
   return (
     <Tabs
