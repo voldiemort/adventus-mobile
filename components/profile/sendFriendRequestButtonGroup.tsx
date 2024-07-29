@@ -24,7 +24,7 @@ const SendFriendRequestButtonGroup = ({ id }: { id: string }) => {
     }
 
     return (
-        <View className="flex-col items-center justify-center">
+        <View className="flex-col w-full items-center justify-center">
             <SendFriendRequestButton id={id} isSecret={false} setStatus={setStatus}/>
             <SendFriendRequestButton id={id} isSecret={true} setStatus={setStatus}/>
         </View>

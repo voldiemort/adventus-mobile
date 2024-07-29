@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import EditProfileForm from "@/components/profile/EditProfileForm";
 import FriendProfile from "@/components/profile/FriendProfile";
 import PublicProfile from "@/components/profile/PublicProfile";
+import PrivateProfile from "@/components/profile/PrivateProfile";
 
 enum Relationship {
     self = 'SELF',
@@ -81,8 +82,7 @@ export default function ProfilePage() {
         }
 
         getUserDetails();
-    },[id, relationship])
-
+    },[])
     if (loading) {
         return (
             <View className='flex-1 flex-col items-center justify-center'>
@@ -93,12 +93,12 @@ export default function ProfilePage() {
     }
   
     return (
-        <View className='flex-1 flex-col items-center justify-center'>
+        <View className='flex-1 items-center justify-center'>
             <Text className='absolute top-[35px] left-[20px] text-3xl font-bold'>Adventus</Text>
             {relationship === Relationship.self && userDetails && <EditProfileForm userDetails={userDetails}/>}
             {relationship === Relationship.friend && userDetails && <FriendProfile userDetails={userDetails}/>}
             {relationship === Relationship.public && userDetails && <PublicProfile id={id} userDetails={userDetails}/>}
-            {relationship === Relationship.private && userDetails && <PublicProfile id={id} userDetails={userDetails}/>}
+            {relationship === Relationship.private && userDetails && <PrivateProfile id={id} userDetails={userDetails}/>}
         </View>
     ) 
 }

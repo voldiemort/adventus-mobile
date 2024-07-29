@@ -34,7 +34,7 @@ const SendFriendRequestButton = ({ id, isSecret, setStatus }: { id: string, isSe
 
     return (
         <Button className='w-full' onPress={onClick}>
-            <Text>{isSecret ? 'Send friend request' : 'Send anonymous friend request'}</Text>
+            <Text>{isSecret ? 'Send anonymous friend request' : 'Send friend request'}</Text>
         </Button>
     )
 }
