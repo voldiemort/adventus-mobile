@@ -1,4 +1,4 @@
-import SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { API_URL } from './utils';
 import { store } from '@/app/store';
@@ -18,28 +18,28 @@ interface signupParams {
 
 export const apiLogin = async (credentials: loginParams) => {
     let response;
-    try {
-        response = await axios.post(`${API_URL}/api/v1/auth/login`, credentials);
-    } catch (error) {
-        console.log((error as Error).message);
+    response = await axios.post(`${API_URL}/api/v1/auth/login`, credentials);
+    if (!response) {
+        console.error('Could not reach server');
         return;
-    }
-    const { token } = response.data.token;
-    await SecureStore.setItemAsync('authToken', token);
-    store.dispatch(login({name: response.data.user.name, image: response.data.user.image}));
+    };
+    const { token } = response.data;
+    const { name, image } = response.data.user;
+    await SecureStore.setItemAsync('authToken', JSON.stringify(token));
+    store.dispatch(login({name: name, image: image}));
 };
 
 export const apiSignup = async (credentials: signupParams) => {
     let response;
-    try {
-        response = await axios.post(`${API_URL}/api/v1/auth/signup`, credentials);
-    } catch (error) {
-        console.log((error as Error).message);
+    response = await axios.post(`${API_URL}/api/v1/auth/signup`, credentials)
+    if (!response) {
+        console.error('Could not reach server');
         return;
     }
-    const { token } = response.data.token;
-    await SecureStore.setItemAsync('authToken', token);
-    store.dispatch(login({name: response.data.user.name, image: response.data.user.image}));
+    const { token } = response.data;
+    const { name, image } = response.data.user;
+    await SecureStore.setItemAsync('authToken', JSON.stringify(token));
+    store.dispatch(login({name: name, image: image}));
 };
 
 export const getToken = async () => {

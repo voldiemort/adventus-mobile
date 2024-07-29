@@ -10,6 +10,7 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '@/lib/useColorScheme';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { Text } from '@/components/ui/text';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -65,9 +66,8 @@ export default function RootLayout() {
     <Provider store={store}>
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
         <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack> 
+        <Stack screenOptions={{ headerShown: false }}> 
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>

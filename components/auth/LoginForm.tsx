@@ -5,9 +5,12 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { useForm, Controller } from "react-hook-form"
 import React from "react"
+import { apiLogin } from "@/lib/authActions"
+import { Link, Redirect, router } from "expo-router"
+import { Separator } from "../ui/separator"
 
 
-export default function App() {
+export default function LoginForm() {
   const {
     control,
     handleSubmit,
@@ -18,7 +21,15 @@ export default function App() {
       password: "",
     },
   })
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await apiLogin(data);
+      router.replace('/(tabs)')
+    } catch (error) {
+      console.error((error as Error).message);
+      return;
+    }
+  });
 
 
   return (
@@ -68,9 +79,14 @@ export default function App() {
         name="password"
       />
 
-        <Button onPress={onSubmit}>
+        <Button className='bg-[#2563ebe5]' onPress={onSubmit}>
             <Text>Sign in with email</Text>
         </Button>
+
+        <Separator className="w-full"/>
+        <Text className="text-[#828282] self-center text-center">
+          If you don't have an account, <Link push href='/signup' className="text-black">sign up here.</Link>
+        </Text>
     </View>
   )
 }
