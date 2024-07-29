@@ -5,15 +5,9 @@ import { router } from "expo-router";
 import { Dispatch, SetStateAction } from "react";
 import { Text } from "../ui/text";
 import { Button } from "../ui/button";
+import { Status } from "./sendFriendRequestButtonGroup";
 
-enum Status {
-    unsent,
-    sending,
-    sent
-}
-
-const sendFriendRequestButton = ({ id, isSecret, status, setStatus }: { id: string, isSecret: boolean, status: Status, 
-    setStatus: Dispatch<SetStateAction<Status>> }) => {
+const SendFriendRequestButton = ({ id, isSecret, setStatus }: { id: string, isSecret: boolean, setStatus: Dispatch<SetStateAction<Status>> }) => {
     async function onClick() {
         setStatus(Status.sending);
         const token = await getToken();
@@ -38,19 +32,11 @@ const sendFriendRequestButton = ({ id, isSecret, status, setStatus }: { id: stri
         }
     }
 
-    if (status === Status.sending) {
-        return <Text>Sending friend request...</Text>
-    }
-
-    if (status === Status.sent) {
-        return <Text>Friend request sent!</Text>
-    }
-
     return (
-        <Button onPress={onClick}>
+        <Button className='w-full' onPress={onClick}>
             <Text>{isSecret ? 'Send friend request' : 'Send anonymous friend request'}</Text>
         </Button>
     )
 }
 
-export default sendFriendRequestButton;
+export default SendFriendRequestButton;

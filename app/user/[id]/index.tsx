@@ -6,6 +6,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import EditProfileForm from "@/components/profile/EditProfileForm";
+import FriendProfile from "@/components/profile/FriendProfile";
+import PublicProfile from "@/components/profile/PublicProfile";
 
 enum Relationship {
     self = 'SELF',
@@ -17,6 +19,10 @@ enum Relationship {
 
 export default function ProfilePage() {
     const { id } = useLocalSearchParams();
+    if (typeof id !== 'string') {
+        console.error('Unexpected ID');
+        return;
+    }
     const [relationship, setRelationship] = useState<Relationship>(Relationship.pending);
     const [loading, setLoading] = useState(true);
     const [userDetails, setUserDetails] = useState(null);
@@ -60,12 +66,7 @@ export default function ProfilePage() {
                 } else if (relationship === Relationship.pending) {
                     setRelationship(Relationship.private);
                 }
-                
-                if (relationship === Relationship.private) {
-                    setLoading(false);
-                    return;
-                }
-
+               
                 response = await axios.get(`${API_URL}/api/v1/user/details/${id}`, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -95,6 +96,9 @@ export default function ProfilePage() {
         <View className='flex-1 flex-col items-center justify-center'>
             <Text className='absolute top-[35px] left-[20px] text-3xl font-bold'>Adventus</Text>
             {relationship === Relationship.self && userDetails && <EditProfileForm userDetails={userDetails}/>}
+            {relationship === Relationship.friend && userDetails && <FriendProfile userDetails={userDetails}/>}
+            {relationship === Relationship.public && userDetails && <PublicProfile id={id} userDetails={userDetails}/>}
+            {relationship === Relationship.private && userDetails && <PublicProfile id={id} userDetails={userDetails}/>}
         </View>
     ) 
 }
